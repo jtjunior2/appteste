@@ -1,0 +1,16 @@
+<p>talhoes works!</p>
+<po-page-default p-title="Seleção de Talhões">
+    <po-container p-title="Selecionar Talhões">
+      <form #talhaoForm="ngForm">
+        <po-select p-label="Setor" name="setor" [p-options]="setores" [(ngModel)]="talhaoData.setor"></po-select>
+        <po-select p-label="Talhão" name="talhao" [p-options]="talhoes" [(ngModel)]="talhaoData.talhao"></po-select>
+        <po-number p-label="Hectares Aplicados" name="hectares" [(ngModel)]="talhaoData.hectares"></po-number>
+        <po-button p-label="Adicionar Talhão" p-type="primary" (p-click)="adicionarTalhao()"></po-button>
+      </form>
+  
+      <po-table [p-items]="talhoesSelecionados" [p-columns]="talhoesColumns"></po-table>
+  
+      <po-button p-label="Próximo: Produtos" p-type="primary" (p-click)="goToProdutos()"></po-button>
+    </po-container>
+  </po-page-default>
+  

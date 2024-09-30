@@ -1,0 +1,15 @@
+<p>encerramento-os works!
+<po-page-default p-title="Encerramento de OS">
+    <po-container p-title="Finalizar OS">
+      <form #encerramentoForm="ngForm">
+        <po-number p-label="Horas de Trabalho" name="horasTrabalho" [(ngModel)]="encerramentoData.horasTrabalho"></po-number>
+        <po-number p-label="Horas de Pulverização" name="horasPulverizacao" [(ngModel)]="encerramentoData.horasPulverizacao"></po-number>
+        <po-input p-label="Observações" name="observacoes" [(ngModel)]="encerramentoData.observacoes"></po-input>
+        <po-number p-label="Temperatura (°C)" name="temperatura" [(ngModel)]="encerramentoData.temperatura"></po-number>
+        <po-number p-label="Umidade (%)" name="umidade" [(ngModel)]="encerramentoData.umidade"></po-number>
+        <po-number p-label="Velocidade do Vento (km/h)" name="velocidadeVento" [(ngModel)]="encerramentoData.velocidadeVento"></po-number>
+        <po-button p-label="Encerrar OS" p-type="danger" (p-click)="encerrarOS()"></po-button>
+      </form>
+    </po-container>
+  </po-page-default>
+</p>

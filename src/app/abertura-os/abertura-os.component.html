@@ -1,0 +1,13 @@
+<p>abertura-os works!</p>
+<po-page-default p-title="Abertura de OS">
+    <po-container p-title="Informações da OS">
+      <form #osForm="ngForm">
+        <po-input p-label="Data" name="data" p-required [(ngModel)]="osData.data"></po-input>
+        <po-select p-label="Ano Safra" name="anoSafra" [p-options]="anosSafra" p-required [(ngModel)]="osData.anoSafra"></po-select>
+        <po-select p-label="Operação" name="operacao" [p-options]="operacoes" p-required [(ngModel)]="osData.operacao"></po-select>
+        <!-- Outros campos como Aglomerado, Fazenda, Vazão -->
+        <po-button p-label="Próximo" p-type="primary" (p-click)="goToTalhoes()"></po-button>
+      </form>
+    </po-container>
+  </po-page-default>
+  

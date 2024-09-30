@@ -1,0 +1,15 @@
+<p>produtos works!</p>
+<po-page-default p-title="Seleção de Produtos">
+    <po-container p-title="Selecionar Produtos">
+      <form #produtoForm="ngForm">
+        <po-select p-label="Produto" name="produto" [p-options]="produtos" [(ngModel)]="produtoData.produto"></po-select>
+        <po-number p-label="Dosagem" name="dosagem" [(ngModel)]="produtoData.dosagem"></po-number>
+        <po-button p-label="Adicionar Produto" p-type="primary" (p-click)="adicionarProduto()"></po-button>
+      </form>
+  
+      <po-table [p-items]="produtosSelecionados" [p-columns]="produtosColumns"></po-table>
+  
+      <po-button p-label="Concluir" p-type="primary" (p-click)="concluir()"></po-button>
+    </po-container>
+  </po-page-default>
+  
