@@ -6,6 +6,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AberturaOsComponent } from './abertura-os/abertura-os.component';
 import { EntregaProdutosComponent } from './entrega-produtos/entrega-produtos.component';
 import { EncerramentoOsComponent } from './encerramento-os/encerramento-os.component';
+import { PoModule } from '@po-ui/ng-components';
+import { FormsModule } from '@angular/forms'; // Importe o FormsModule
+//import { ProtheusServiceModule } from './protheus-service/protheus-service.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { EncerramentoOsComponent } from './encerramento-os/encerramento-os.compo
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    PoModule,
+    FormsModule, // Adicione o FormsModule
+    //ProtheusServiceModule
   ],
   providers: [],
   bootstrap: [AppComponent]
