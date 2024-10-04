@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Os } from '../shared/models/os.model';
+import { Os } from '../shared/os.model';
 
 @Component({
   selector: 'app-abertura-os',
@@ -9,18 +9,21 @@ import { Os } from '../shared/models/os.model';
 })
 export class AberturaOsComponent {
   os: Os = {
-    codigoOS: 1, // Valor mockado
+    codigoOS: 1,
     dataOS: new Date(),
-    anoSafra: '',
-    periodoProducao: '',
+    anoSafra: '2024', // Valor inicial
+    periodoProducao: '1', // Valor inicial
     centroCusto: '',
     aglomerado: '',
     fazenda: '',
     operacao: '',
+    aeronave: '',
+    piloto: '',
     vazao: 0,
     talhoes: [],
     produtos: []
   };
+
 
   anosSafra = [
     { label: '2023', value: '2023' },
@@ -28,8 +31,8 @@ export class AberturaOsComponent {
   ];
 
   periodosProducao = [
-    { label: 'Período 1', value: '1' },
-    { label: 'Período 2', value: '2' }
+    { label: 'PerÃ­odo 1', value: '1' },
+    { label: 'PerÃ­odo 2', value: '2' }
   ];
 
   aglomerados = [
@@ -43,8 +46,8 @@ export class AberturaOsComponent {
   ];
 
   operacoes = [
-    { label: 'Operação Terrestre', value: 'terrestre' },
-    { label: 'Operação Aérea', value: 'aerea' }
+    { label: 'OperaÃ§Ã£o Terrestre', value: 'terrestre' },
+    { label: 'OperaÃ§Ã£o AÃ©rea', value: 'aerea' }
   ];
 
   exibirCamposAeronave = false;
@@ -68,11 +71,12 @@ export class AberturaOsComponent {
   }
 
   onOperacaoChange(event: any) {
+    this.os.operacao = event; // Adicione esta linha
     this.exibirCamposAeronave = event === 'aerea';
   }
 
   proximo() {
-    // Lógica para validar os campos e navegar para a próxima tela
+    // Lï¿½gica para validar os campos e navegar para a prï¿½xima tela
     this.router.navigate(['/selecao-talhoes']);
   }
 }
