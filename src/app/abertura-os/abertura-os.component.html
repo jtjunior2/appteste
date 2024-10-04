@@ -22,13 +22,14 @@
       (ngModelChange)="onFazendaChange($event)">
     </po-select>
 
-    <po-select name="operacao" p-label="Operação" [p-options]="operacoes" p-required
-      (ngModelChange)="onOperacaoChange($event)">
+ 
+    <po-select name="operacao" p-label="Operação" [p-options]="operacoes" p-required (p-change)="onOperacaoChange($event)">
     </po-select>
 
-    <po-input *ngIf="exibirCamposAeronave" p-label="Aeronave" name="aeronave" [(ngModel)]="os.aeronave"></po-input>
 
-    <po-input *ngIf="exibirCamposAeronave" p-label="Piloto" name="piloto" [(ngModel)]="os.piloto"></po-input>
+    <po-input p-label="Aeronave" name="aeronave" [(ngModel)]="os.aeronave" [p-disabled]="(!exibirCamposAeronave).toString()"></po-input>
+
+    <po-input p-label="Piloto" name="piloto" [(ngModel)]="os.piloto" [p-disabled]="(!exibirCamposAeronave).toString()"></po-input>
 
     <po-number p-label="Vazão" name="vazao" p-required [(ngModel)]="os.vazao"></po-number>
 

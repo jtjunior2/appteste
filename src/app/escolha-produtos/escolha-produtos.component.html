@@ -1,1 +1,12 @@
-<p>escolha-produtos works!</p>
+<po-page-default p-title="Escolha de Produtos">
+    <po-container>
+      <po-table
+        p-checkbox="true"
+        [p-columns]="produtosColumns"
+        [p-items]="produtos"
+        (p-change)="onTableChange($event)">
+      </po-table>
+  
+      <po-button p-label="Salvar" p-type="primary" (p-click)="salvar()"></po-button>
+    </po-container>
+  </po-page-default>

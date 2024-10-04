@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PoModule, PoToolbarModule, PoMenuModule, PoPageModule } from '@po-ui/ng-components';
+import { PoModule, PoToolbarModule, PoMenuModule, PoPageModule,PoTableModule  } from '@po-ui/ng-components';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AberturaOsComponent } from './abertura-os/abertura-os.component';
@@ -24,8 +24,10 @@ import { EscolhaProdutosComponent } from './escolha-produtos/escolha-produtos.co
     CommonModule, // Importado aqui
     PoToolbarModule, // Importado aqui
     PoMenuModule, // Importado aqui
-    PoPageModule // Importado aqui
+    PoPageModule, // Importado aqui
+    PoTableModule 
   ],
+ // schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent]
 })

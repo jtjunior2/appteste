@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Os } from '../shared/os.model';
 
@@ -11,8 +11,8 @@ export class AberturaOsComponent {
   os: Os = {
     codigoOS: 1,
     dataOS: new Date(),
-    anoSafra: '2024', // Valor inicial
-    periodoProducao: '1', // Valor inicial
+    anoSafra: '2024',
+    periodoProducao: '1',
     centroCusto: '',
     aglomerado: '',
     fazenda: '',
@@ -23,7 +23,6 @@ export class AberturaOsComponent {
     talhoes: [],
     produtos: []
   };
-
 
   anosSafra = [
     { label: '2023', value: '2023' },
@@ -46,13 +45,13 @@ export class AberturaOsComponent {
   ];
 
   operacoes = [
-    { label: 'Operação Terrestre', value: 'terrestre' },
-    { label: 'Operação Aérea', value: 'aerea' }
+    { label: 'Operação Terrestre', value: { codigo: 'terrestre', descricao: 'Operação Terrestre' } },
+    { label: 'Operação Aérea', value: { codigo: 'aerea', descricao: 'Operação Aérea' } }
   ];
 
   exibirCamposAeronave = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private cdRef: ChangeDetectorRef) {}
 
   onAnoSafraChange(event: any) {
     this.os.anoSafra = event;
@@ -71,12 +70,19 @@ export class AberturaOsComponent {
   }
 
   onOperacaoChange(event: any) {
-    this.os.operacao = event; // Adicione esta linha
-    this.exibirCamposAeronave = event === 'aerea';
+    console.log('Método onOperacaoChange() chamado');
+    console.log('Evento:', event);
+
+    this.os.operacao = event.value;
+    console.log('os.operacao:', this.os.operacao);
+
+    this.exibirCamposAeronave = (event.value.codigo ?? '') === 'aerea';
+    console.log('exibirCamposAeronave:', this.exibirCamposAeronave);
+
+    this.cdRef.detectChanges();
   }
 
   proximo() {
-    // L�gica para validar os campos e navegar para a pr�xima tela
-    this.router.navigate(['/selecao-talhoes']);
+    this.router.navigate(['/selecao-talhoes'], { state: { os: this.os } });
   }
 }

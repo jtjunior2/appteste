@@ -10,7 +10,7 @@ export interface Os {
     aeronave?: string;
     piloto?: string;
     vazao: number;
-    talhoes: Talhao[];
+    talhoes: any[];
     produtos: Produto[];
   }
   
