@@ -1,0 +1,37 @@
+<po-page-default p-title="Abertura de Ordem de Serviço">
+    <po-container>
+      <po-input p-label="Número da OS" name="codigoOS" p-readonly="true" [(ngModel)]="os.codigoOS"></po-input>
+  
+      <po-datepicker p-label="Data da OS" name="dataOS" p-readonly="true" [(ngModel)]="os.dataOS"></po-datepicker>
+  
+      <po-select p-label="Ano Safra" name="anoSafra" [p-options]="anosSafra" p-required
+        [(ngModel)]="os.anoSafra" (ngModelChange)="onAnoSafraChange($event)">
+      </po-select>
+  
+      <po-select p-label="Período de Produção" name="periodoProducao" [p-options]="periodosProducao" p-required
+        [(ngModel)]="os.periodoProducao" (ngModelChange)="onPeriodoProducaoChange($event)">
+      </po-select>
+  
+      <po-input p-label="Centro de Custo" name="centroCusto" p-required [(ngModel)]="os.centroCusto"></po-input>
+  
+      <po-select p-label="Aglomerado" name="aglomerado" [p-options]="aglomerados" p-required
+        [(ngModel)]="os.aglomerado" (ngModelChange)="onAglomeradoChange($event)">
+      </po-select>
+  
+      <po-select p-label="Fazenda" name="fazenda" [p-options]="fazendas" p-required
+        [(ngModel)]="os.fazenda" (ngModelChange)="onFazendaChange($event)">
+      </po-select>
+  
+      <po-select p-label="Operação" name="operacao" [p-options]="operacoes" p-required
+        [(ngModel)]="os.operacao" (ngModelChange)="onOperacaoChange($event)">
+      </po-select>
+  
+      <po-input *ngIf="exibirCamposAeronave" p-label="Aeronave" name="aeronave" [(ngModel)]="os.aeronave"></po-input>
+  
+      <po-input *ngIf="exibirCamposAeronave" p-label="Piloto" name="piloto" [(ngModel)]="os.piloto"></po-input>
+  
+      <po-number p-label="Vazão" name="vazao" p-required [(ngModel)]="os.vazao"></po-number>
+  
+      <po-button p-label="Próximo" p-type="primary" (p-click)="proximo()"></po-button>
+    </po-container>
+  </po-page-default>
