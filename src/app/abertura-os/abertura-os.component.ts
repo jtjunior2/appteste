@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { OsStateService } from '../shared/os-state.service';
 import { Os } from '../shared/os.model';
 
 @Component({
@@ -30,8 +31,8 @@ export class AberturaOsComponent {
   ];
 
   periodosProducao = [
-    { label: 'Período 1', value: '1' },
-    { label: 'Período 2', value: '2' }
+    { label: 'Periodo 1', value: '1' },
+    { label: 'Periodo 2', value: '2' }
   ];
 
   aglomerados = [
@@ -45,13 +46,13 @@ export class AberturaOsComponent {
   ];
 
   operacoes = [
-    { label: 'Operação Terrestre', value: { codigo: 'terrestre', descricao: 'Operação Terrestre' } },
-    { label: 'Operação Aérea', value: { codigo: 'aerea', descricao: 'Operação Aérea' } }
+        { label: 'Operacao Terrestre', value: { codigo: 'terrestre', descricao: 'Operacao Terrestre' } },
+        { label: 'Operacao Aerea', value: { codigo: 'aerea', descricao: 'Operacao Aerea' } }
   ];
 
   exibirCamposAeronave = false;
 
-  constructor(private router: Router, private cdRef: ChangeDetectorRef) {}
+
 
   onAnoSafraChange(event: any) {
     this.os.anoSafra = event;
@@ -69,20 +70,15 @@ export class AberturaOsComponent {
     this.os.fazenda = event;
   }
 
-  onOperacaoChange(event: any) {
-    console.log('Método onOperacaoChange() chamado');
-    console.log('Evento:', event);
+  definirOperacao(event: any) {
+    this.os.operacao = event.codigo;
+    this.exibirCamposAeronave = this.os.operacao === 'aerea';
+}
 
-    this.os.operacao = event.value;
-    console.log('os.operacao:', this.os.operacao);
+constructor(private router: Router, private cdRef: ChangeDetectorRef, private osStateService: OsStateService) {}
 
-    this.exibirCamposAeronave = (event.value.codigo ?? '') === 'aerea';
-    console.log('exibirCamposAeronave:', this.exibirCamposAeronave);
-
-    this.cdRef.detectChanges();
-  }
-
-  proximo() {
-    this.router.navigate(['/selecao-talhoes'], { state: { os: this.os } });
-  }
+proximo() {
+  this.osStateService.setOs(this.os); // Salva os dados no serviço
+  this.router.navigate(['/selecao-talhoes']);
+}
 }

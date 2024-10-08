@@ -1,46 +1,81 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Os, Talhao } from '../shared/os.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { PoModule, PoToolbarModule, PoMenuModule, PoPageModule, PoTableModule,
+  PoContainerModule, PoDatepickerModule, PoButtonModule, PoTableComponent } from '@po-ui/ng-components';
+import { OsStateService } from '../shared/os-state.service';
+import { Talhao, Os } from '../shared/os.model';
 
 @Component({
   selector: 'app-selecao-talhoes',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    PoModule,
+    PoToolbarModule,
+    PoMenuModule,
+    PoPageModule,
+    PoTableModule,
+    PoContainerModule,
+    PoDatepickerModule,
+    PoButtonModule
+  ],
   templateUrl: './selecao-talhoes.component.html',
   styleUrls: ['./selecao-talhoes.component.css']
 })
 export class SelecaoTalhoesComponent {
   os: Os;
   talhoes: Talhao[] = [
-    { codigoTalhao: 'T001', variedadePIMS: 'V001', descricaoVariedade: 'Variedade A', hectaresPlantio: 10, hectaresAplicados: 0 },
-    { codigoTalhao: 'T002', variedadePIMS: 'V002', descricaoVariedade: 'Variedade B', hectaresPlantio: 20, hectaresAplicados: 0 },
-    { codigoTalhao: 'T003', variedadePIMS: 'V003', descricaoVariedade: 'Variedade C', hectaresPlantio: 15, hectaresAplicados: 0 }
+    { selecionado: false, codigoTalhao: 'T001', variedadePIMS: 'V001', descricaoVariedade: 'Variedade A', hectaresPlantio: 10, hectaresAplicados: 1 },
+    { selecionado: false, codigoTalhao: 'T002', variedadePIMS: 'V002', descricaoVariedade: 'Variedade B', hectaresPlantio: 20, hectaresAplicados: 1 },
+    { selecionado: false, codigoTalhao: 'T003', variedadePIMS: 'V003', descricaoVariedade: 'Variedade C', hectaresPlantio: 15, hectaresAplicados: 1 },
+    { selecionado: false, codigoTalhao: 'T004', variedadePIMS: 'V004', descricaoVariedade: 'Variedade D', hectaresPlantio: 20, hectaresAplicados: 1 }
   ];
 
   talhoesColumns = [
-    { property: 'codigoTalhao', label: 'CÛdigo' },
+    { type: 'selection', property: 'selecionado', label: 'Selecionado' },
+    { property: 'codigoTalhao', label: 'C√≥digo' },
     { property: 'variedadePIMS', label: 'Variedade PIMS' },
-    { property: 'descricaoVariedade', label: 'DescriÁ„o' },
+    { property: 'descricaoVariedade', label: 'Descri√ß√£o' },
     { property: 'hectaresPlantio', label: 'Hectares Plantio', type: 'number' },
     { property: 'hectaresAplicados', label: 'Hectares Aplicados', type: 'number' }
   ];
 
-  talhoesSelecionados: Talhao[] = [];
-
-  constructor(private router: Router) {
-    this.os = history.state.os;
-    console.log('Dados da OS recebidos:', this.os);
-  }
-
-  onTableChange(event: any) {
-    this.talhoesSelecionados = event.rows;
+  constructor(private router: Router, private osStateService: OsStateService) {
+    this.os = this.osStateService.getOs() || {
+      codigoOS: 1,
+      dataOS: new Date(),
+      anoSafra: '2024',
+      periodoProducao: '1',
+      centroCusto: '',
+      aglomerado: '',
+      fazenda: '',
+      operacao: '',
+      aeronave: '',
+      piloto: '',
+      vazao: 0,
+      talhoes: [],
+      produtos: []
+    };
   }
 
   proximo() {
-    if (this.talhoesSelecionados.length === 0) {
-      // Exibir mensagem de erro: "Selecione pelo menos um talh„o"
+    const selectedTalhoes = this.talhoes.filter(talhao => talhao.selecionado);
+    if (selectedTalhoes.length === 0) {
+      alert("Selecione pelo menos um talh√£o.");
       return;
     }
 
-    // Navegar para a prÛxima tela, passando os dados da OS e dos talhıes selecionados
-    this.router.navigate(['/escolha-produtos'], { state: { os: this.os, talhoes: this.talhoesSelecionados } });
+    // Salva os talh√µes selecionados no servi√ßo de estado
+    this.osStateService.setTalhoes(selectedTalhoes);
+
+    // Navegar para a pr√≥xima tela
+    this.router.navigate(['/escolha-produtos']);
+  }
+
+  voltar() {
+    this.router.navigate(['/abertura-os']);
   }
 }

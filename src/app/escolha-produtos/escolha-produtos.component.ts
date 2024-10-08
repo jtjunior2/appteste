@@ -1,54 +1,87 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Os, Produto } from '../shared/os.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { PoModule, PoToolbarModule, PoMenuModule, PoPageModule, PoTableModule, PoContainerModule, PoButtonModule } from '@po-ui/ng-components';
+import { OsStateService } from '../shared/os-state.service';
+import { Produto } from '../shared/os.model';
 
 @Component({
-  selector: 'app-escolha-produtos',
+  selector: 'escolha-produtos',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    PoModule,
+    PoToolbarModule,
+    PoMenuModule,
+    PoPageModule,
+    PoTableModule,
+    PoContainerModule,
+    PoButtonModule
+  ],
   templateUrl: './escolha-produtos.component.html',
   styleUrls: ['./escolha-produtos.component.css']
 })
 export class EscolhaProdutosComponent {
-  os: Os;
-  produtos: Produto[] = [
-    { codigoProduto: 'P001', descricaoProduto: 'Produto A', unidadeMedida: 'kg', areaAplicada: 0, dosagem: 0, tipoMaquina: '' },
-    { codigoProduto: 'P002', descricaoProduto: 'Produto B', unidadeMedida: 'L', areaAplicada: 0, dosagem: 0, tipoMaquina: '' },
-    { codigoProduto: 'P003', descricaoProduto: 'Produto C', unidadeMedida: 'g', areaAplicada: 0, dosagem: 0, tipoMaquina: '' }
+  produtosDisponiveis: Produto[] = [
+    { codigoProduto: 'P001', descricaoProduto: 'Produto A', unidadeMedida: 'kg', quantidade: 0 },
+    { codigoProduto: 'P002', descricaoProduto: 'Produto B', unidadeMedida: 'l', quantidade: 0 },
+    { codigoProduto: 'P003', descricaoProduto: 'Produto C', unidadeMedida: 'kg', quantidade: 0 }
   ];
 
-  produtosColumns = [
-    { property: 'codigoProduto', label: 'Código' },
-    { property: 'descricaoProduto', label: 'Descrição' },
-    { property: 'unidadeMedida', label: 'Unidade' },
-    { property: 'areaAplicada', label: 'Área Aplicada', type: 'number' },
-    { property: 'dosagem', label: 'Dosagem', type: 'number' },
-    { property: 'tipoMaquina', label: 'Tipo de Máquina' }
-  ];
+  // Lista para usar no template
+  produtosOptions = this.produtosDisponiveis.map(prod => ({
+    value: prod.codigoProduto,
+    label: prod.descricaoProduto
+  }));
 
+  produtoSelecionado: Produto = { codigoProduto: '', descricaoProduto: '', unidadeMedida: '', quantidade: 0 };
   produtosSelecionados: Produto[] = [];
 
-  constructor(private router: Router) {
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras.state) {
-      this.os = navigation.extras.state['os'];
-      console.log('Dados da OS recebidos:', this.os);
+  constructor(private router: Router, private osStateService: OsStateService) {
+    const os = this.osStateService.getOs(); // Recupera a OS
+    const talhoes = this.osStateService.getTalhoes(); // Recupera os talhões selecionados
+    console.log('Dados da OS:', os);
+    console.log('Talhões selecionados:', talhoes);
+
+    // Recupera produtos previamente selecionados se houver
+    this.produtosSelecionados = this.osStateService.getProdutos() || [];
+  }
+
+  onProdutoChange(codigoProduto: string) {
+    const produto = this.produtosDisponiveis.find(prod => prod.codigoProduto === codigoProduto);
+    if (produto) {
+      this.produtoSelecionado = { ...produto, quantidade: 0 }; // Reseta a quantidade ao selecionar um novo produto
     }
   }
 
-  onTableChange(event: any) {
-    this.produtosSelecionados = event.rows;
+  adicionarProduto() {
+    if (this.produtoSelecionado.codigoProduto && this.produtoSelecionado.quantidade > 0) {
+      const produtoExistente = this.produtosSelecionados.find(prod => prod.codigoProduto === this.produtoSelecionado.codigoProduto);
+      
+      if (produtoExistente) {
+        // Atualiza a quantidade se o produto já estiver na lista
+        produtoExistente.quantidade += this.produtoSelecionado.quantidade;
+      } else {
+        // Adiciona um novo produto à lista
+        this.produtosSelecionados.push({ ...this.produtoSelecionado });
+      }
+
+      // Reseta o produto selecionado
+      this.produtoSelecionado = { codigoProduto: '', descricaoProduto: '', unidadeMedida: '', quantidade: 0 };
+    } else {
+      alert('Por favor, preencha todos os campos antes de adicionar um produto.');
+    }
   }
 
-  salvar() {
-    if (this.produtosSelecionados.length === 0) {
-      // Exibir mensagem de erro: "Selecione pelo menos um produto"
-      return;
-    }
+  voltar() {
+    this.router.navigate(['/selecao-talhoes']); // Navega para a tela de Seleção de Talhões
+  }
 
-    // Salvar os dados da OS, dos talhões e dos produtos selecionados
-    console.log('Dados da OS:', this.os);
-    console.log('Talhões selecionados:', this.os.talhoes);
-    console.log('Produtos selecionados:', this.produtosSelecionados);
-
-    // TODO: Implementar a lógica para salvar os dados no backend
+  finalizar() {
+    this.osStateService.setProdutos(this.produtosSelecionados); // Salva os produtos selecionados no estado
+    console.log('Ordem de Serviço finalizada com os seguintes produtos:', this.produtosSelecionados);
+    alert('Ordem de Serviço finalizada com sucesso!');
   }
 }

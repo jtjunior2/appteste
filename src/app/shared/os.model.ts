@@ -20,13 +20,11 @@ export interface Os {
     descricaoVariedade: string;
     hectaresPlantio: number;
     hectaresAplicados: number;
+    selecionado?: boolean; // adiciona a propriedade selecionado
   }
-  
   export interface Produto {
     codigoProduto: string;
     descricaoProduto: string;
     unidadeMedida: string;
-    areaAplicada: number;
-    dosagem: number;
-    tipoMaquina: string;
+    quantidade: number;
   }

@@ -8,7 +8,7 @@
       (ngModelChange)="onAnoSafraChange($event)">
     </po-select>
 
-    <po-select name="periodoProducao" p-label="Período de Produção" [p-options]="periodosProducao" p-required
+    <po-select name="periodoProducao" p-label="Periodo de Produçao" [p-options]="periodosProducao" p-required
       (ngModelChange)="onPeriodoProducaoChange($event)">
     </po-select>
 
@@ -22,17 +22,17 @@
       (ngModelChange)="onFazendaChange($event)">
     </po-select>
 
- 
-    <po-select name="operacao" p-label="Operação" [p-options]="operacoes" p-required (p-change)="onOperacaoChange($event)">
-    </po-select>
+    <po-combo p-label="Operacao" 
+    [p-options]="operacoes" 
+    (p-change)="definirOperacao($event)">
+</po-combo>
 
 
-    <po-input p-label="Aeronave" name="aeronave" [(ngModel)]="os.aeronave" [p-disabled]="(!exibirCamposAeronave).toString()"></po-input>
-
-    <po-input p-label="Piloto" name="piloto" [(ngModel)]="os.piloto" [p-disabled]="(!exibirCamposAeronave).toString()"></po-input>
+<po-input p-label="Aeronave" name="aeronave" [(ngModel)]="os.aeronave" [hidden]="!exibirCamposAeronave"></po-input>
+<po-input p-label="Piloto" name="piloto" [(ngModel)]="os.piloto" [hidden]="!exibirCamposAeronave"></po-input>
 
     <po-number p-label="Vazão" name="vazao" p-required [(ngModel)]="os.vazao"></po-number>
 
-    <po-button p-label="Próximo" p-type="primary" (p-click)="proximo()"></po-button>
+      <po-button p-label="Próximo" p-type="primary" (p-click)="proximo()"></po-button>
   </po-container>
 </po-page-default>

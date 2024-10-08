@@ -8,7 +8,9 @@ const routes: Routes = [
   { path: '', redirectTo: 'abertura-os', pathMatch: 'full' },
   { path: 'abertura-os', component: AberturaOsComponent },
   { path: 'selecao-talhoes', component: SelecaoTalhoesComponent },
-  { path: 'escolha-produtos', component: EscolhaProdutosComponent }
+  {    path: 'escolha-produtos',
+    loadComponent: () => import('./escolha-produtos/escolha-produtos.component').then(m => m.EscolhaProdutosComponent)
+  }
 ];
 
 @NgModule({

@@ -1,13 +1,19 @@
-<po-page-default p-title="Seleção de Talhões">
-  <po-container>
-    <po-table
-      p-checkbox="true"
-      [(p-selected-rows)]="talhoesSelecionados"
-      [p-columns]="talhoesColumns"
-      [p-items]="talhoes"
-      [p-loading]="false">
-    </po-table>
+<po-page-default p-title="SeleÃ§Ã£o de TalhÃµes">
+  <po-table 
+    [p-items]="talhoes" 
+    [p-columns]="talhoesColumns"
+    [p-selectable]="true">
+  </po-table>
 
-    <po-button p-label="Próximo" p-type="primary" (p-click)="proximo()"></po-button>
-  </po-container>
+  <po-button 
+    p-label="Voltar" 
+    p-type="default" 
+    (p-click)="voltar()">
+  </po-button>
+
+  <po-button 
+    p-label="PrÃ³ximo" 
+    p-type="primary" 
+    (p-click)="proximo()">
+  </po-button>
 </po-page-default>

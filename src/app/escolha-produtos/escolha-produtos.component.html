@@ -1,12 +1,29 @@
 <po-page-default p-title="Escolha de Produtos">
-    <po-container>
-      <po-table
-        p-checkbox="true"
-        [p-columns]="produtosColumns"
-        [p-items]="produtos"
-        (p-change)="onTableChange($event)">
-      </po-table>
+    <po-container p-title="Produtos Disponíveis">
+      <po-select
+        p-label="Produto"
+        name="produto"
+        [p-options]="produtosOptions"
+        p-required
+        (p-change)="onProdutoChange($event)">
+      </po-select>
   
-      <po-button p-label="Salvar" p-type="primary" (p-click)="salvar()"></po-button>
+      <po-number p-label="Quantidade" name="quantidade" [(ngModel)]="produtoSelecionado.quantidade" p-required></po-number>
+  
+      <po-button p-label="Adicionar Produto" p-type="primary" (p-click)="adicionarProduto()"></po-button>
     </po-container>
+  
+    <po-table
+      p-title="Produtos Selecionados"
+      [p-items]="produtosSelecionados"
+      [p-columns]="[
+        { property: 'codigoProduto', label: 'Código do Produto' },
+        { property: 'descricaoProduto', label: 'Descrição' },
+        { property: 'quantidade', label: 'Quantidade' }
+      ]">
+    </po-table>
+  
+    <po-button p-label="Voltar" p-type="default" (p-click)="voltar()"></po-button>
+    <po-button p-label="Finalizar" p-type="danger" (p-click)="finalizar()"></po-button>
   </po-page-default>
+  
